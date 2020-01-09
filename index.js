@@ -102,14 +102,14 @@ likeButton = () => {
     return (
     
       <div >
-        <input  style={{ marginLeft:"450px",width:"430px"}} placeholder="Search here..." onChange={this.setSearchValue} />
+        <input class="searchbar" placeholder="Search here..." onChange={this.setSearchValue} />
         <button  onClick={this.searchVideo}>Search</button>
         <br/>
       <div>
       <hr/>
       
 {this.state.isLoadingError ? (<h1>No search found</h1>): (
-  <iframe src={`https://www.youtube.com/embed/${this.state.currentVideoUrl}`} style={{height: '350px', width: '850px', float : 'left'}}/>
+  <iframe class="iframe" src={`https://www.youtube.com/embed/${this.state.currentVideoUrl}`}/>
 )}
 
 
@@ -123,21 +123,17 @@ likeButton = () => {
         {this.state.loadingStatus == "LOADING" ? (<h1>Loading...</h1>) : (videos) }
         </div>
          <div style={{display: 'block', float: 'left'}}>
-    <button  style={ {
-  marginLeft: "790px" ,backgroundColor:" red",padding:'12px'}}onClick={this.likeButton}>{this.state.likeStatus}</button>
+    <button class="like"
+  onClick={this.likeButton}>{this.state.likeStatus}</button>
 {this.state.listOfComments.map(eachComment => (
   <li>{eachComment}</li>
 ))}
          <h3> comments</h3>
-    <input style ={{outline: 0 ,border: '0',
-    borderBottom: '2px solid #484a56',width:'300px'}} onChange={this.setComment} placeholder= "Upgrad" value={this.state.comment}/>
+    <input class="commentername" onChange={this.setComment} placeholder= "Upgrad" value={this.state.comment}/>
 
-    <input  style ={{outline: 0,
-    border: '0',
-    borderBottom: '2px solid #484a56',
-    marginLeft:"45px", width:'300px'}}onChange={this.setComment} placeholder="Your Comment" value={this.state.comment}/> 
+    <input class="comment" onChange={this.setComment} placeholder="Your Comment" value={this.state.comment}/> 
     <br/><br/>
-    <button  style={{marginLeft:'580px', width:'120px'}}onClick={this.addComment}> Comment</button>
+    <button class="commentbtn" onClick={this.addComment}> Comment</button>
     <button onClick={this.addComment} style={{marginLeft:"20px" ,width:'120px'}}> cancel</button>
     
     

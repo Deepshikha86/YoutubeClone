@@ -9,7 +9,7 @@ class App extends Component {
     this.state = {
       searchKeyword: 'reactjs',
       Videolist: [],
-      statusOfLoading: null ,
+      loadingStatus: null ,
       currVideoUrl: '',
       comment: '',
       commentList: [],
@@ -26,7 +26,7 @@ console.log(this.state.searchKeyword)
 }
 searchVideo = async () => {
     this.setState({
-    statusOfLoading: "LOADING",
+    loadingStatus: "LOADING",
     isLoadingError: false
   })
 const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&order=viewCount&q=${this.state.searchKeyword}&type=video&videoDefinition=high&key=AIzaSyDijjd2yQlT4lGGtYH_JflEkcD1scuXDK4`);
@@ -42,19 +42,19 @@ this.setState({
 })
 console.log(this.state.Videolist)
   this.setState({
-    statusOfLoading: "LOADED"
+    loadingStatus: "LOADED"
   })
 }
 showMostPopularVideos = async () => {
   this.setState({
-    statusOfLoading: 'LOADING'
+    loadingStatus: 'LOADING'
   })
   const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&chart=mostPopular&maxResults=15&regionCode=IN&key=AIzaSyDijjd2yQlT4lGGtYH_JflEkcD1scuXDK4`);
 const myJson = await response.json();
 console.log("myJson " , myJson);
 this.setState({
   Videolist: myJson.items,
-  statusOfLoading: "LOADED"
+  loadingStatus: "LOADED"
 })
 console.log(this.state.Videolist)
 this.setState({
@@ -120,7 +120,7 @@ likeButton = () => {
         <br/>
         <br/>
         <div style={{ width: '300px', float : 'right'}}>
-        {this.state.statusOfLoading == "LOADING" ? (<h1>Loading...</h1>) : (videos) }
+        {this.state.loadingStatus == "LOADING" ? (<h1>Loading...</h1>) : (videos) }
         </div>
          <div style={{display: 'block', float: 'left'}}>
     <button class="like"

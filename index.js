@@ -8,11 +8,11 @@ class App extends Component {
     super();
     this.state = {
       searchKeyword: 'reactjs',
-      listOfVideos: [],
-      loadingStatus: null ,
-      currentVideoUrl: '',
+      Videolist: [],
+      statusOfLoading: null ,
+      currVideoUrl: '',
       comment: '',
-      listOfComments: [],
+      commentList: [],
       likeStatus: 'Like',
       isLoadingError: false
     };
@@ -26,7 +26,7 @@ console.log(this.state.searchKeyword)
 }
 searchVideo = async () => {
     this.setState({
-    loadingStatus: "LOADING",
+    statusOfLoading: "LOADING",
     isLoadingError: false
   })
 const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&order=viewCount&q=${this.state.searchKeyword}&type=video&videoDefinition=high&key=AIzaSyDijjd2yQlT4lGGtYH_JflEkcD1scuXDK4`);
@@ -38,38 +38,38 @@ if(myJson.items.length == 0) {
   })
 }
 this.setState({
-  listOfVideos: myJson.items
+  Videolist: myJson.items
 })
-console.log(this.state.listOfVideos)
+console.log(this.state.Videolist)
   this.setState({
-    loadingStatus: "LOADED"
+    statusOfLoading: "LOADED"
   })
 }
 showMostPopularVideos = async () => {
   this.setState({
-    loadingStatus: 'LOADING'
+    statusOfLoading: 'LOADING'
   })
   const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&chart=mostPopular&maxResults=15&regionCode=IN&key=AIzaSyDijjd2yQlT4lGGtYH_JflEkcD1scuXDK4`);
 const myJson = await response.json();
 console.log("myJson " , myJson);
 this.setState({
-  listOfVideos: myJson.items,
-  loadingStatus: "LOADED"
+  Videolist: myJson.items,
+  statusOfLoading: "LOADED"
 })
-console.log(this.state.listOfVideos)
+console.log(this.state.Videolist)
 this.setState({
-  currentVideoUrl: this.state.listOfVideos[0].id.videoId
+  currVideoUrl: this.state.Videolist[0].id.videoId
 })
-console.log("currentVideoUrl" , this.state.currentVideoUrl)
+console.log("currVideoUrl" , this.state.currVideoUrl)
 }
 componentDidMount() {
   this.showMostPopularVideos()
-  console.log("listOfVideos" , this.state.listOfVideos)
+  console.log("Videolist" , this.state.Videolist)
 }
 setCurrentUrl = (id) => {
 
   this.setState({
-    currentVideoUrl: id
+    currVideoUrl: id
   })
 }
 setComment = (event) => {
@@ -79,7 +79,7 @@ setComment = (event) => {
 }
 addComment = () => {
   this.setState({
-    listOfComments: [...this.state.listOfComments, this.state.comment],
+    commentList: [...this.state.commentList, this.state.comment],
     comment: ''
   })
 }
@@ -96,7 +96,7 @@ likeButton = () => {
 
 }
   render() {
-    let videos = this.state.listOfVideos.map(eachVideo => (
+    let videos = this.state.Videolist.map(eachVideo => (
 <img src={eachVideo.snippet.thumbnails.high.url} style={{ height: '300px', cursor:'pointer'}} onClick={()=> this.setCurrentUrl(eachVideo.id.videoId)} />
         ))
     return (
@@ -109,7 +109,7 @@ likeButton = () => {
       <hr/>
       
 {this.state.isLoadingError ? (<h1>No search found</h1>): (
-  <iframe class="iframe" src={`https://www.youtube.com/embed/${this.state.currentVideoUrl}`}/>
+  <iframe class="iframe" src={`https://www.youtube.com/embed/${this.state.currVideoUrl}`}/>
 )}
 
 
@@ -120,12 +120,12 @@ likeButton = () => {
         <br/>
         <br/>
         <div style={{ width: '300px', float : 'right'}}>
-        {this.state.loadingStatus == "LOADING" ? (<h1>Loading...</h1>) : (videos) }
+        {this.state.statusOfLoading == "LOADING" ? (<h1>Loading...</h1>) : (videos) }
         </div>
          <div style={{display: 'block', float: 'left'}}>
     <button class="like"
   onClick={this.likeButton}>{this.state.likeStatus}</button>
-{this.state.listOfComments.map(eachComment => (
+{this.state.commentList.map(eachComment => (
   <li>{eachComment}</li>
 ))}
          <h3> comments</h3>
